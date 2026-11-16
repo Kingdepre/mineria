@@ -1,0 +1,433 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "API de prediccion | Prestamos de equipos mineros",
+    "description": "Modelo supervisado para estimar riesgo de devolucion fuera de plazo. Proyecto academico de Mineria de Datos.",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/salud": {
+      "get": {
+        "tags": [
+          "Informacion"
+        ],
+        "summary": "Verificar que la API esta operativa",
+        "operationId": "salud_salud_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/modelo/info": {
+      "get": {
+        "tags": [
+          "Informacion"
+        ],
+        "summary": "Descripcion del modelo y resultados de prueba",
+        "operationId": "info_modelo_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predecir": {
+      "post": {
+        "tags": [
+          "Prediccion"
+        ],
+        "summary": "Predecir riesgo de retraso para un prestamo",
+        "description": "Ingrese variables disponibles AL REALIZAR el prestamo. Swagger muestra un ejemplo editable.",
+        "operationId": "predecir_predecir_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudPrestamo"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrediccionResultado"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/predecir/lote": {
+      "post": {
+        "tags": [
+          "Prediccion"
+        ],
+        "summary": "Predecir hasta 50 prestamos en un solo llamado",
+        "operationId": "predecir_lote_predecir_lote_post",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/LoteEntrada"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LoteSalida"
+                }
+              }
+            }
+          },
+          "422": {
+            "description": "Validation Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "type": "array",
+            "title": "Detail"
+          }
+        },
+        "type": "object",
+        "title": "HTTPValidationError"
+      },
+      "LoteEntrada": {
+        "properties": {
+          "registros": {
+            "items": {
+              "$ref": "#/components/schemas/SolicitudPrestamo"
+            },
+            "type": "array",
+            "maxItems": 50,
+            "minItems": 1,
+            "title": "Registros"
+          }
+        },
+        "type": "object",
+        "required": [
+          "registros"
+        ],
+        "title": "LoteEntrada"
+      },
+      "LoteSalida": {
+        "properties": {
+          "cantidad": {
+            "type": "integer",
+            "title": "Cantidad"
+          },
+          "resultados": {
+            "items": {
+              "$ref": "#/components/schemas/PrediccionResultado"
+            },
+            "type": "array",
+            "title": "Resultados"
+          }
+        },
+        "type": "object",
+        "required": [
+          "cantidad",
+          "resultados"
+        ],
+        "title": "LoteSalida"
+      },
+      "PrediccionResultado": {
+        "properties": {
+          "prediccion": {
+            "type": "string",
+            "enum": [
+              "A tiempo",
+              "Con retraso"
+            ],
+            "title": "Prediccion"
+          },
+          "probabilidad_retraso": {
+            "type": "number",
+            "maximum": 1.0,
+            "minimum": 0.0,
+            "title": "Probabilidad Retraso"
+          },
+          "riesgo": {
+            "type": "string",
+            "enum": [
+              "BAJO",
+              "ALTO"
+            ],
+            "title": "Riesgo"
+          },
+          "umbral_decision": {
+            "type": "number",
+            "title": "Umbral Decision"
+          },
+          "version_modelo": {
+            "type": "string",
+            "title": "Version Modelo"
+          },
+          "advertencia": {
+            "type": "string",
+            "title": "Advertencia"
+          }
+        },
+        "type": "object",
+        "required": [
+          "prediccion",
+          "probabilidad_retraso",
+          "riesgo",
+          "umbral_decision",
+          "version_modelo",
+          "advertencia"
+        ],
+        "title": "PrediccionResultado"
+      },
+      "SolicitudPrestamo": {
+        "properties": {
+          "tipo_personal": {
+            "type": "string",
+            "enum": [
+              "Propio",
+              "Contratista"
+            ],
+            "title": "Tipo Personal",
+            "description": "Relacion laboral del solicitante."
+          },
+          "area_solicitante": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Area Solicitante",
+            "description": "Area que pide el equipo."
+          },
+          "region": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 2,
+            "title": "Region",
+            "description": "Region de la operacion minera."
+          },
+          "tipo_operacion": {
+            "type": "string",
+            "enum": [
+              "Subterránea",
+              "Tajo abierto"
+            ],
+            "title": "Tipo Operacion"
+          },
+          "categoria_equipo": {
+            "type": "string",
+            "maxLength": 120,
+            "minLength": 2,
+            "title": "Categoria Equipo"
+          },
+          "criticidad_equipo": {
+            "type": "string",
+            "enum": [
+              "Baja",
+              "Media",
+              "Alta"
+            ],
+            "title": "Criticidad Equipo"
+          },
+          "condicion_entrega": {
+            "type": "string",
+            "enum": [
+              "Operativo",
+              "Con observaciones"
+            ],
+            "title": "Condicion Entrega"
+          },
+          "turno": {
+            "type": "string",
+            "enum": [
+              "Día",
+              "Noche"
+            ],
+            "title": "Turno"
+          },
+          "motivo_prestamo": {
+            "type": "string",
+            "enum": [
+              "Operación diaria",
+              "Mantenimiento programado",
+              "Inspección técnica",
+              "Emergencia operativa",
+              "Proyecto específico"
+            ],
+            "title": "Motivo Prestamo"
+          },
+          "prioridad": {
+            "type": "string",
+            "enum": [
+              "Normal",
+              "Alta",
+              "Crítica"
+            ],
+            "title": "Prioridad"
+          },
+          "cantidad_prestada": {
+            "type": "integer",
+            "maximum": 100.0,
+            "minimum": 1.0,
+            "title": "Cantidad Prestada",
+            "description": "Numero de unidades prestadas."
+          },
+          "dias_plazo": {
+            "type": "integer",
+            "maximum": 365.0,
+            "minimum": 1.0,
+            "title": "Dias Plazo",
+            "description": "Plazo pactado de devolucion (dias)."
+          },
+          "valor_unitario_pen": {
+            "type": "number",
+            "maximum": 10000000.0,
+            "exclusiveMinimum": 0.0,
+            "title": "Valor Unitario Pen",
+            "description": "Valor unitario en soles."
+          },
+          "mes": {
+            "type": "integer",
+            "maximum": 12.0,
+            "minimum": 1.0,
+            "title": "Mes",
+            "description": "Mes del prestamo (1-12)."
+          }
+        },
+        "type": "object",
+        "required": [
+          "tipo_personal",
+          "area_solicitante",
+          "region",
+          "tipo_operacion",
+          "categoria_equipo",
+          "criticidad_equipo",
+          "condicion_entrega",
+          "turno",
+          "motivo_prestamo",
+          "prioridad",
+          "cantidad_prestada",
+          "dias_plazo",
+          "valor_unitario_pen",
+          "mes"
+        ],
+        "title": "SolicitudPrestamo",
+        "example": {
+          "area_solicitante": "Mantenimiento Mecánico",
+          "cantidad_prestada": 1,
+          "categoria_equipo": "Herramientas eléctricas",
+          "condicion_entrega": "Operativo",
+          "criticidad_equipo": "Media",
+          "dias_plazo": 5,
+          "mes": 3,
+          "motivo_prestamo": "Mantenimiento programado",
+          "prioridad": "Normal",
+          "region": "Arequipa",
+          "tipo_operacion": "Tajo abierto",
+          "tipo_personal": "Propio",
+          "turno": "Día",
+          "valor_unitario_pen": 2750.0
+        }
+      },
+      "ValidationError": {
+        "properties": {
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "type": "array",
+            "title": "Location"
+          },
+          "msg": {
+            "type": "string",
+            "title": "Message"
+          },
+          "type": {
+            "type": "string",
+            "title": "Error Type"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "ctx": {
+            "type": "object",
+            "title": "Context"
+          }
+        },
+        "type": "object",
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError"
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "Informacion",
+      "description": "Estado del servicio y metadatos del modelo."
+    },
+    {
+      "name": "Prediccion",
+      "description": "Predicciones individuales y por lotes."
+    }
+  ]
+}

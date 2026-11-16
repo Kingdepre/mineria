@@ -1,0 +1,142 @@
+{
+  "datos_version": "1.0.0",
+  "datos_sha256": "2834f7344930fed8fb67a92af307af95f7c74152dda8968fcaa25d4458032709",
+  "semilla_entrenamiento": 42,
+  "version_python": "3.12.3",
+  "fecha_ejecucion": "2026-11-15",
+  "nombre_proyecto": "Prediccion de retraso en devolucion de equipos mineros",
+  "version_modelo": "1.0.0",
+  "fecha_elaboracion": "2026-11-06",
+  "archivo_origen": "prestamos_mineria_500000.csv",
+  "procedencia": "Muestra obtenida del archivo de datos de trabajo del usuario; no se ha validado su origen operacional ni su representatividad",
+  "observaciones_muestra": 15000,
+  "observaciones_etiquetadas": 14880,
+  "conteos_etiquetas_originales": {
+    "A tiempo": 13177,
+    "Con retraso": 1703,
+    "Pendiente": 107,
+    "Pérdida": 13
+  },
+  "objetivo": "Con retraso = 1; A tiempo = 0. Pendiente y Perdida excluidos.",
+  "exclusion": "Se excluyen pendientes y perdidas: no representan un resultado binario confirmado de devolucion.",
+  "columnas_numericas": [
+    "cantidad_prestada",
+    "dias_plazo",
+    "valor_unitario_pen",
+    "mes"
+  ],
+  "columnas_categoricas": [
+    "tipo_personal",
+    "area_solicitante",
+    "region",
+    "tipo_operacion",
+    "categoria_equipo",
+    "criticidad_equipo",
+    "condicion_entrega",
+    "turno",
+    "motivo_prestamo",
+    "prioridad"
+  ],
+  "columnas_modelo": [
+    "tipo_personal",
+    "area_solicitante",
+    "region",
+    "tipo_operacion",
+    "categoria_equipo",
+    "criticidad_equipo",
+    "condicion_entrega",
+    "turno",
+    "motivo_prestamo",
+    "prioridad",
+    "cantidad_prestada",
+    "dias_plazo",
+    "valor_unitario_pen",
+    "mes"
+  ],
+  "particion_temporal": {
+    "train": 10416,
+    "valid": 2232,
+    "test": 2232
+  },
+  "periodos_particion": {
+    "train": {
+      "inicio": "2022-01-01",
+      "fin": "2025-10-20"
+    },
+    "valid": {
+      "inicio": "2025-10-20",
+      "fin": "2026-05-06"
+    },
+    "test": {
+      "inicio": "2026-05-06",
+      "fin": "2026-11-05"
+    }
+  },
+  "modelos_evaluados": {
+    "RegresionLogistica": {
+      "validacion_average_precision": 0.1311,
+      "validacion_f1": 0.2254,
+      "umbral_validacion": 0.435
+    },
+    "BosqueAleatorio": {
+      "validacion_average_precision": 0.1171,
+      "validacion_f1": 0.2237,
+      "umbral_validacion": 0.345
+    }
+  },
+  "modelo_seleccionado": "RegresionLogistica",
+  "criterio_seleccion": "average_precision en validacion",
+  "criterio_umbral": "maximizar F1 en validacion, entre 0.05 y 0.95",
+  "umbral": 0.435,
+  "resultados_test": {
+    "accuracy": 0.2065,
+    "precision": 0.1019,
+    "recall": 0.8491,
+    "f1": 0.182,
+    "roc_auc": 0.4859,
+    "average_precision": 0.1045,
+    "confusion_matrix": [
+      [
+        264,
+        1736
+      ],
+      [
+        35,
+        197
+      ]
+    ],
+    "positive_rate": 0.1039
+  },
+  "baseline_test": {
+    "accuracy": 0.8961,
+    "precision": 0.0,
+    "recall": 0.0,
+    "f1": 0.0,
+    "roc_auc": 0.5,
+    "average_precision": 0.1039,
+    "confusion_matrix": [
+      [
+        2000,
+        0
+      ],
+      [
+        232,
+        0
+      ]
+    ],
+    "positive_rate": 0.1039
+  },
+  "version_sklearn": "1.8.0",
+  "version_pandas": "2.2.3",
+  "interpretacion": "Riesgo estimado para analisis academico; no es certeza, no se ha validado en produccion.",
+  "filtracion_evitada": [
+    "fecha_devolucion_real",
+    "dias_uso_real",
+    "dias_retraso",
+    "condicion_devolucion",
+    "tipo_incidencia",
+    "costos posteriores",
+    "estado_prestamo"
+  ],
+  "modelo_sha256": "c7a9cf7bf859203daca45002309c515b14715cef5bb52ffc4c213b7e37c54013"
+}

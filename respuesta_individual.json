@@ -1,0 +1,8 @@
+{
+  "prediccion": "Con retraso",
+  "probabilidad_retraso": 0.5268,
+  "riesgo": "ALTO",
+  "umbral_decision": 0.435,
+  "version_modelo": "1.0.0",
+  "advertencia": "Estimacion academica: no garantiza la fecha real de devolucion."
+}

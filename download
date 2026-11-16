@@ -1,0 +1,13 @@
+.venv/
+.venv-repro/
+dist/
+__pycache__/
+.pytest_cache/
+.git/
+informe/
+graficos/
+data/
+ejemplos/
+documentacion/
+tests/
+entrenamiento/

@@ -1,0 +1,3 @@
+data/*.csv -text
+*.joblib binary
+*.sh text eol=lf

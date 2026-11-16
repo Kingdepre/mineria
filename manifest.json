@@ -1,0 +1,13 @@
+{
+  "version": "1.0.0",
+  "archivo": "data/muestra_prestamos_mineros_15000.csv",
+  "sha256": "2834f7344930fed8fb67a92af307af95f7c74152dda8968fcaa25d4458032709",
+  "filas": 15000,
+  "codificacion": "utf-8-sig",
+  "columnas": ["fecha_prestamo", "cumplimiento_plazo", "tipo_personal", "area_solicitante", "region", "tipo_operacion", "categoria_equipo", "criticidad_equipo", "cantidad_prestada", "dias_plazo", "valor_unitario_pen", "condicion_entrega", "turno", "motivo_prestamo", "prioridad", "mes"],
+  "origen_declarado": "prestamos_mineria_500000.csv (no incluido ni verificado)",
+  "semilla_muestreo_declarada": 20261106,
+  "fecha_registro_version": "2026-11-15",
+  "periodo": ["2022-01-01", "2026-11-05"],
+  "etiquetas": {"A tiempo": 13177, "Con retraso": 1703, "Pendiente": 107, "Pérdida": 13}
+}

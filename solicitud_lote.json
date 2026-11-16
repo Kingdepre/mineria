@@ -1,0 +1,36 @@
+{
+  "registros": [
+    {
+      "tipo_personal": "Contratista",
+      "area_solicitante": "Mantenimiento Eléctrico",
+      "region": "Ayacucho",
+      "tipo_operacion": "Subterránea",
+      "categoria_equipo": "Iluminación",
+      "criticidad_equipo": "Alta",
+      "condicion_entrega": "Operativo",
+      "turno": "Noche",
+      "motivo_prestamo": "Mantenimiento programado",
+      "prioridad": "Normal",
+      "cantidad_prestada": 1,
+      "dias_plazo": 7,
+      "valor_unitario_pen": 17915.0,
+      "mes": 10
+    },
+    {
+      "tipo_personal": "Contratista",
+      "area_solicitante": "Mantenimiento Eléctrico",
+      "region": "Ayacucho",
+      "tipo_operacion": "Subterránea",
+      "categoria_equipo": "Iluminación",
+      "criticidad_equipo": "Alta",
+      "condicion_entrega": "Operativo",
+      "turno": "Noche",
+      "motivo_prestamo": "Mantenimiento programado",
+      "prioridad": "Normal",
+      "cantidad_prestada": 1,
+      "dias_plazo": 7,
+      "valor_unitario_pen": 17915.0,
+      "mes": 10
+    }
+  ]
+}
